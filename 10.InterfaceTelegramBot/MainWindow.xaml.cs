@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ConsoleApp8;
+using _9.TelegramBot;
 
 
 namespace _10.InterfaceTelegramBot
@@ -41,7 +41,7 @@ namespace _10.InterfaceTelegramBot
 
         private void ButtonSendMessage_Click(object sender, RoutedEventArgs e)
         {
-            bot.
+          
         }
     }
 }
