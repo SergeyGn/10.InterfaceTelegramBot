@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using _10.InterfaceTelegramBot;
-
+using Telegram.Bot.Args;
 
 namespace _10.InterfaceTelegramBot
 {
@@ -30,8 +30,7 @@ namespace _10.InterfaceTelegramBot
 
             client =new TelegramMessageClient(this);
 
-            Chat.ItemsSource=client.BotMessageLog;
-
+            Chat.ItemsSource = client.ChatMessageLog;
             ListUsersBox.ItemsSource = client.BotMessageLog;
         }
 

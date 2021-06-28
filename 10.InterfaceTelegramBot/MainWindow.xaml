@@ -167,7 +167,7 @@
                                 Margin="20,10"
                         >
                             <TextBlock x:Name="FirstNameUser"
-                               Text="{Binding ElementName=ListUsersBox,Path=SelectedItem.FirstName}" 
+                               Text="{Binding FirstName}" 
                                Canvas.Left="60"
                                Canvas.Top="5"
                                Width="305" 
@@ -177,7 +177,7 @@
                                TextTrimming="CharacterEllipsis"
                                />
                             <TextBlock x:Name="ChatMessage"
-                               Text="{Binding ElementName=ListUsersBox,Path=SelectedItem.Msg}"
+                               Text="{Binding Msg}"
                                Canvas.Left="60"
                                Canvas.Top="25"
                                Width="305" 

@@ -17,6 +17,7 @@ namespace _10.InterfaceTelegramBot
     {
         private static MainWindow w;
         public ObservableCollection<MessageLog> BotMessageLog { get; set; }
+        public ObservableCollection<MessageLog> ChatMessageLog;
         public TelegramBotClient Bot;
         private int _countNewMsg;
         private string token= "1887811869:AAHoHq6KnRNwixEk7VhQVS0d-DRXWwPtU44";
@@ -24,6 +25,7 @@ namespace _10.InterfaceTelegramBot
         public TelegramMessageClient(MainWindow W)
         {
             BotMessageLog = new ObservableCollection<MessageLog>();
+            ChatMessageLog = new ObservableCollection<MessageLog>();
             w = W;
             Bot=new TelegramBotClient(token);
             Bot.OnMessage += MessageListener;
@@ -43,7 +45,8 @@ namespace _10.InterfaceTelegramBot
                 }
                 BotMessageLog.Add(new MessageLog(
                 DateTime.Now.ToLongTimeString(), e.Message.Text, e.Message.Chat.FirstName, e.Message.Chat.Id, ++_countNewMsg));
-
+                ChatMessageLog.Add(new MessageLog(
+                DateTime.Now.ToLongTimeString(), e.Message.Text, e.Message.Chat.FirstName, e.Message.Chat.Id, ++_countNewMsg));
             });
         }
 
