@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _9.TelegramBot
 {
-    class MessageFile
+   public class MessageFile
     {
         /// <summary>
         /// файл id

@@ -12,18 +12,20 @@ using Telegram.Bot.Types.InputFiles;
 
 namespace _9.TelegramBot
 {
-    class Program
-    {
-        private static TelegramBotClient _bot;
+   public  class Program
+   {
+        static string token = "1887811869:AAHoHq6KnRNwixEk7VhQVS0d-DRXWwPtU44";
+        public static TelegramBotClient Bot;
+        
         private static string _pathContent = @"Content\";
         private static string _pathDocuments = @"Content\Documents\";
         private static string _pathImages = @"Content\Photo\";
         private static string _pathSounds = @"Content\Sounds\";
         private static string _pathVideo = @"Content\Video\";
         private static Dictionary<long, User> _listUsers = new Dictionary<long, User>();
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            string token = "1887811869:AAHxziYTVufs3VTuox-pX735Z6SbDIvkP08";
+            
             if (!Directory.Exists(_pathContent))
             {
                 Directory.CreateDirectory(_pathContent);
@@ -32,14 +34,14 @@ namespace _9.TelegramBot
                 Directory.CreateDirectory(_pathSounds);
                 Directory.CreateDirectory(_pathVideo);
             }
-            _bot = new TelegramBotClient(token);
-
-            _bot.OnMessage += MessageListener;
-            _bot.StartReceiving();
+            
+            Bot= new TelegramBotClient(token);
+            Bot.OnMessage += MessageListener;
+            Bot.StartReceiving();
             Console.ReadKey();
         }
 
-        private static void MessageListener(object sender, MessageEventArgs e) //обработчик сообщений
+        public static void MessageListener(object sender, MessageEventArgs e) //обработчик сообщений
         {
             if (!_listUsers.ContainsKey(e.Message.Chat.Id))
             {
@@ -112,32 +114,32 @@ namespace _9.TelegramBot
                     switch (e.Message.Text)
                     {
                         case "/help":
-                            _bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это бот файлообменник. Загрузи что-нибудь от сюда или сохрани сюда" +
+                            Bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это бот файлообменник. Загрузи что-нибудь от сюда или сохрани сюда" +
                                 $"\n/show - показывает контент который можно загрузить с сервера");
                             break;
                         case "/start":
-                            _bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это бот файлообменник. Загрузи что-нибудь от сюда или сохрани сюда." +
+                           Bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это бот файлообменник. Загрузи что-нибудь от сюда или сохрани сюда." +
                                 $"Для дополнительной информации воспользуйся командой /help");
                             break;
                         case "/show":
                             GetDirectoryFolder(_pathContent, e);
                             break;
                         default:
-                            _bot.SendTextMessageAsync(e.Message.Chat.Id, "я не понимаю твою команду введи /help и я подскажу тебе");
+                            Bot.SendTextMessageAsync(e.Message.Chat.Id, "я не понимаю твою команду введи /help и я подскажу тебе");
                             break;
                     }
                     return;
                 default:
-                    _bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это что шутка? Я тут для загрузки и показа что загрузили");
+                    Bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это что шутка? Я тут для загрузки и показа что загрузили");
                     return;
             }
 
             Download(File.FileId, $"{File.FilePath}{File.FileName}");
 
-            _bot.SendTextMessageAsync(e.Message.Chat.Id, $"файл загружен");
+            Bot.SendTextMessageAsync(e.Message.Chat.Id, $"файл загружен");
             if (e.Message.Text == null) return;
         }
-               
+
         private static void GetDirectoryFolder(string path, MessageEventArgs e) //показать каталог по заданному пути
         {
             DirectoryInfo di = new DirectoryInfo(path);
@@ -167,7 +169,7 @@ namespace _9.TelegramBot
                     Answer += $"\n{i + 1}){ListItem[i]}";
                 }
             }
-            _bot.SendTextMessageAsync(e.Message.Chat.Id, Answer);
+            Bot.SendTextMessageAsync(e.Message.Chat.Id, Answer);
             return;
         }
         private static string CheckNumber(string text, string path, MessageEventArgs e) //проверить число
@@ -198,7 +200,7 @@ namespace _9.TelegramBot
                     return ReturnPath;
                 }
             }
-            _bot.SendTextMessageAsync(e.Message.Chat.Id, "неправильный ввод, нужно ввести номер из списка," +
+            Bot.SendTextMessageAsync(e.Message.Chat.Id, "неправильный ввод, нужно ввести номер из списка," +
                 " попробуйте заново через команду /show");
             return "null";
         }
@@ -212,28 +214,28 @@ namespace _9.TelegramBot
                 var InputFile = new InputOnlineFile(stream, FileName);
                 if (Path.Contains(_pathDocuments))
                 {
-                    await _bot.SendDocumentAsync(Id, InputFile);
+                    await Bot.SendDocumentAsync(Id, InputFile);
                 }
                 else if (Path.Contains(_pathImages))
                 {
-                   await _bot.SendPhotoAsync(Id, InputFile);
+                    await Bot.SendPhotoAsync(Id, InputFile);
                 }
                 else if (Path.Contains(_pathSounds))
                 {
-                    await _bot.SendAudioAsync(Id, InputFile);
+                    await Bot.SendAudioAsync(Id, InputFile);
                 }
                 else if (Path.Contains(_pathVideo))
                 {
-                   await _bot.SendVideoAsync(Id, InputFile);
+                    await Bot.SendVideoAsync(Id, InputFile);
                 }
             }
         }
 
         private static async Task Download(string FileId, string Path)  //скачать на компьютер
         {
-            var File = await _bot.GetFileAsync(FileId);
+            var File = await Bot.GetFileAsync(FileId);
             FileStream fs = new FileStream(Path, FileMode.Create);
-            await _bot.DownloadFileAsync(File.FilePath, fs);
+            await Bot.DownloadFileAsync(File.FilePath, fs);
             fs.Close();
             fs.Dispose();
         }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _9.TelegramBot
 {
-    class User
+   public class User
     {
         /// <summary>
         /// id пользователя

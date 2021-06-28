@@ -13,8 +13,9 @@
         >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="125*"/>
-            <ColumnDefinition Width="270*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="251*"/>
+            <ColumnDefinition Width="543*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="36*"/>
@@ -24,23 +25,25 @@
         <Border 
                 Grid.Column="0"
                 Grid.Row="0"
-                Grid.ColumnSpan="3"
+                Grid.ColumnSpan="2"
                 HorizontalAlignment="Left" 
                 Height="420" 
                 VerticalAlignment="Top" 
                 Width="250"
             BorderBrush="Gray"
-            BorderThickness="1" Margin="0,0,0,-1" Grid.RowSpan="2"
+            BorderThickness="1" Grid.RowSpan="3"
             >
-            <StackPanel x:Name="ListUsersBox">
-                <Canvas 
+            <ListBox x:Name="ListUsersBox">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Canvas 
                     x:Name="ListUsers"
                     Height="50" 
                     Width="240"
                     HorizontalAlignment="Center"
                         >
-                    <TextBlock x:Name="FirstName"
-                               Text="Имя пользователя" 
+                            <TextBlock x:Name="FirstName"
+                               Text="{Binding FirstName}" 
                                Canvas.Left="60"
                                Canvas.Top="5"
                                Width="130" 
@@ -49,9 +52,9 @@
                                FontSize="12" 
                                TextTrimming="CharacterEllipsis"
                                >
-                    </TextBlock>
-                    <TextBlock x:Name="MessageLost"
-                               Text="Текст сообщения Много букв"
+                            </TextBlock>
+                            <TextBlock x:Name="MessageLost"
+                               Text="{Binding Msg}"
                                Canvas.Left="60"
                                Canvas.Top="25"
                                Width="130" 
@@ -60,7 +63,7 @@
                                Foreground="Gray"
                                TextTrimming="CharacterEllipsis"
                                />
-                    <Image x:Name="AvatarInListUser"
+                            <Image x:Name="AvatarInListUser"
                         Height="46" 
                         Width="46" 
                         HorizontalAlignment="Center" 
@@ -69,8 +72,8 @@
                         Canvas.Top="2"
                         Source="джонс.PNG"
                         />
-                    <TextBlock x:Name="CountMessage" 
-                               Text="8888" 
+                            <TextBlock x:Name="CountMessage" 
+                               Text="{Binding CountNewMsg}" 
                                Canvas.Left="199" 
                                Canvas.Top="25" 
                                Height="16" 
@@ -78,8 +81,8 @@
                                Background="#FF40A7E3" Margin="0" Padding="3,0"
 
                                />
-                    <TextBlock x:Name="TimeCreateMessage"
-                               Text="00:00:00"
+                            <TextBlock x:Name="TimeCreateMessage"
+                               Text="{Binding Time}"
                                Canvas.Left="190"
                                Canvas.Top="5"
                                Width="45" 
@@ -87,18 +90,20 @@
                                FontSize="12"
                                Foreground="Gray"
                                />
-                </Canvas>
-            </StackPanel>
+                        </Canvas>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Border>
         <TextBox x:Name="NameUserChat"
-                 Text="Имя пользователя"
+                 Text="{Binding ElementName=ListUsersBox,Path=SelectedItem.Id}"
                  FontWeight="DemiBold"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center"
-                 Grid.Column="1"
-                 Grid.Row="0" />
+                 Grid.Column="2"
+                 Grid.Row="0" Margin="269,8,268,7" />
         <Canvas  x:Name="PanelMessage"
-                 Grid.Column="1"
+                 Grid.Column="2"
                  Grid.Row="2">
             <TextBox 
                 x:Name="MessageSend"
@@ -133,35 +138,36 @@
 
         </Canvas>
         <Border 
-                Grid.Column="1"
+                Grid.Column="2"
                 Grid.Row="0"
                 
                 HorizontalAlignment="Right" 
                 Height="420" 
-                VerticalAlignment="Top" 
+                VerticalAlignment="Bottom" 
                 Width="542" 
                 RenderTransformOrigin="1.973,0.55" 
                 BorderBrush="Gray"
                 BorderThickness="1" 
-                Grid.RowSpan="3" Margin="0,0,-1,-1">
+                Grid.RowSpan="3" Margin="0,0,-1,1">
 
-            <StackPanel x:Name="Chat" Margin="0,33,0,32" >
-                <StackPanel.Background>
+            <ListBox x:Name="Chat" Margin="0,33,0,32" >
+                <ListBox.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF72A07C" Offset="1"/>
-                        <GradientStop Color="#FFE3DEB8" Offset="0.38"/>
+                        <GradientStop Color="#FF72A07C"/>
+                        <GradientStop Color="#FFE3DEB8" Offset="0.62"/>
                     </LinearGradientBrush>
-                </StackPanel.Background>
-                <Canvas 
-                    x:Name="UserMessage"
-                    Height="57" 
-                    Width="375"
-                    HorizontalAlignment="Left"
-                    Background="White"
-                    Margin="20,10"
+                </ListBox.Background>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Canvas x:Name="UserMessage" 
+                                Height="57" 
+                                Width="375" 
+                                HorizontalAlignment="Left" 
+                                Background="White"
+                                Margin="20,10"
                         >
-                    <TextBlock x:Name="FirstNameUser"
-                               Text="Имя пользователя" 
+                            <TextBlock x:Name="FirstNameUser"
+                               Text="{Binding ElementName=ListUsersBox,Path=SelectedItem.FirstName}" 
                                Canvas.Left="60"
                                Canvas.Top="5"
                                Width="305" 
@@ -170,8 +176,8 @@
                                FontSize="12" 
                                TextTrimming="CharacterEllipsis"
                                />
-                    <TextBlock x:Name="ChatMessage"
-                               Text="Текст сообщения Много букв"
+                            <TextBlock x:Name="ChatMessage"
+                               Text="{Binding ElementName=ListUsersBox,Path=SelectedItem.Msg}"
                                Canvas.Left="60"
                                Canvas.Top="25"
                                Width="305" 
@@ -179,7 +185,7 @@
                                FontSize="12"
                                Foreground="Gray" Height="22"
                                />
-                    <Image x:Name="Avatar"
+                            <Image x:Name="Avatar"
                         Height="32" 
                         Width="32" 
                         HorizontalAlignment="Center" 
@@ -188,7 +194,7 @@
                         Canvas.Top="10"
                         Source="джонс.PNG" 
                         />
-                    <TextBlock x:Name="CountMessageChat" 
+                            <TextBlock x:Name="CountMessageChat" 
                                Text="8888" 
                                Canvas.Left="477" 
                                Canvas.Top="292" 
@@ -197,8 +203,8 @@
                                Background="#FF40A7E3" Margin="0" Padding="3,0"
                                />
 
-                    <TextBlock x:Name="ChatTimeCreateMessage"
-                               Text="00:00:00"
+                            <TextBlock x:Name="ChatTimeCreateMessage"
+                               Text="{Binding Time}"
                                Canvas.Right="0"
                                Canvas.Bottom="0"
                                Width="45" 
@@ -206,57 +212,12 @@
                                FontSize="12"
                                Foreground="Gray"
                                />
-                </Canvas>
-                <Canvas 
-                    x:Name="BotMessage"
-                    Height="57" 
-                    Width="375"
-                    HorizontalAlignment="Right"
-                    Background="White"
-                    Margin="20,10"
-                        >
-                    <TextBlock x:Name="Bot"
-                               Text="Имя пользователя" 
-                               Canvas.Left="60"
-                               Canvas.Top="5"
-                               Width="305" 
-                               MinWidth="65"
-                               FontWeight="DemiBold"
-                               FontSize="12" 
-                               TextTrimming="CharacterEllipsis"
-                               />
-                    <TextBlock x:Name="BotChatMessage"
-                               Text="Текст сообщения Много букв"
-                               Canvas.Left="60"
-                               Canvas.Top="25"
-                               Width="305" 
-                               MinWidth="65"
-                               FontSize="12"
-                               Foreground="Gray" Height="17"
-                               />
-                    <Image x:Name="AvatarBot"
-                        Height="32" 
-                        Width="32" 
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Center" 
-                        Canvas.Left="10" 
-                        Canvas.Top="10"
-                        Source="джонс.PNG" 
-                        />
-
-                    <TextBlock x:Name="BotChatTimeCreateMessage"
-                               Text="00:00:00"
-                               Canvas.Right="0"
-                               Canvas.Bottom="0"
-                               Width="45" 
-                               MinWidth="45"
-                               FontSize="12"
-                               Foreground="Gray"
-                               />
-                </Canvas>
-            </StackPanel>
+                        </Canvas>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Border>
-        <Canvas x:Name="NewMessageInfo"  Grid.Row="1" Grid.Column="1" Margin="495,303,10,8" >
+        <Canvas x:Name="NewMessageInfo"  Grid.Row="1" Grid.Column="2" Margin="495,303,10,8" >
             <Button 
                 x:Name="ButtonScrollDawn"
                 VerticalContentAlignment="Center"

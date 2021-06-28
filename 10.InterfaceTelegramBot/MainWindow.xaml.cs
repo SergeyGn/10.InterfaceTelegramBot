@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using _9.TelegramBot;
+using _10.InterfaceTelegramBot;
 
 
 namespace _10.InterfaceTelegramBot
@@ -23,11 +23,16 @@ namespace _10.InterfaceTelegramBot
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        TelegramMessageClient client;
         public MainWindow()
         {
-            InitializeComponent(); 
-            
+            InitializeComponent();
+
+            client =new TelegramMessageClient(this);
+
+            Chat.ItemsSource=client.BotMessageLog;
+
+            ListUsersBox.ItemsSource = client.BotMessageLog;
         }
 
         private void Chat_SelectionChanged(object sender, SelectionChangedEventArgs e)
