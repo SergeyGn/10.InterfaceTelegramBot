@@ -29,9 +29,9 @@ namespace _10.InterfaceTelegramBot
             InitializeComponent();
 
             client =new TelegramMessageClient(this);
-
+            
             Chat.ItemsSource = client.ChatMessageLog;
-            ListUsersBox.ItemsSource = client.BotMessageLog;
+            ListUsersBox.ItemsSource = client.MessageLog;
         }
 
         private void Chat_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -45,7 +45,7 @@ namespace _10.InterfaceTelegramBot
 
         private void ButtonSendMessage_Click(object sender, RoutedEventArgs e)
         {
-          
+            client.SendMessage(MessageSend.Text, NameUserChat.Text);
         }
     }
 }
