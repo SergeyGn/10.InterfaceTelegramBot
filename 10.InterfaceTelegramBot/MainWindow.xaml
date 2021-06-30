@@ -11,29 +11,27 @@
         MinWidth="400"
         MinHeight="225"
         >
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="251*"/>
             <ColumnDefinition Width="543*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="36*"/>
+            <RowDefinition Height="35"/>
             <RowDefinition Height="385*"/>
-            <RowDefinition Height="35*"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Border 
                 Grid.Column="0"
                 Grid.Row="0"
-                Grid.ColumnSpan="2"
-                HorizontalAlignment="Left" 
-                Height="420" 
-                VerticalAlignment="Top" 
-                Width="250"
+                Grid.ColumnSpan="1"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
             BorderBrush="Gray"
             BorderThickness="1" Grid.RowSpan="3"
             >
             <ListBox x:Name="ListUsersBox">
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Canvas 
@@ -99,30 +97,36 @@
                  Text="{Binding ElementName=ListUsersBox,Path=SelectedItem.Id}"
                  FontWeight="DemiBold"
                  HorizontalAlignment="Center"
-                 VerticalAlignment="Center"
+                 VerticalAlignment="Stretch"
                  Grid.Column="2"
-                 Grid.Row="0" Margin="269,8,268,7" />
-        <Canvas  x:Name="PanelMessage"
+                 Grid.Row="0"  />
+        <Grid ShowGridLines="True"  x:Name="PanelMessage"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
                  Grid.Column="2"
                  Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="35"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+
             <TextBox 
                 x:Name="MessageSend"
-                 Grid.Column="1"
-                 Grid.Row="2"
-                 VerticalAlignment="Center"
-                
-                 Text="Написать сообщение..." 
-                 Foreground="#FFC9C8C8"  
-                Canvas.Left="3" 
-                Canvas.Top="4" 
-                Width="503" 
-                Height="25"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Text="Написать сообщение..."
+                Grid.Column="0"
+                Grid.Row="0"
                  />
             <Button 
                 x:Name="ButtonSendMessage"
                 VerticalContentAlignment="Center"
                 HorizontalContentAlignment="Right" Height="25" Width="25" Canvas.Right="6" Canvas.Top="4" Background="White" BorderBrush="White" Foreground="White" Click="ButtonSendMessage_Click" 
-                
+                Grid.Column="1"
+                Grid.Row="0"
                 >
                 <Image Height="14" Source="910167-2196f3.png" Stretch="Fill" Width="16" RenderTransformOrigin="0.5,0.5" MinWidth="20" MinHeight="20">
                     <Image.RenderTransform>
@@ -136,37 +140,26 @@
                 </Image>
             </Button>
 
-        </Canvas>
-        <Border 
-                Grid.Column="2"
-                Grid.Row="0"
-                
-                HorizontalAlignment="Right" 
-                Height="420" 
-                VerticalAlignment="Bottom" 
-                Width="542" 
-                RenderTransformOrigin="1.973,0.55" 
-                BorderBrush="Gray"
-                BorderThickness="1" 
-                Grid.RowSpan="3" Margin="0,0,-1,1">
-
-            <ListBox x:Name="Chat" Margin="0,33,0,32" >
-                <ListBox.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF72A07C"/>
-                        <GradientStop Color="#FFE3DEB8" Offset="0.62"/>
-                    </LinearGradientBrush>
-                </ListBox.Background>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Canvas x:Name="UserMessage" 
+        </Grid>
+        <ListBox x:Name="Chat" 
+                 Grid.Column="1"
+                 Grid.Row="1">
+            <ListBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF72A07C"/>
+                    <GradientStop Color="#FFE3DEB8" Offset="0.62"/>
+                </LinearGradientBrush>
+            </ListBox.Background>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Canvas x:Name="UserMessage" 
                                 Height="57" 
                                 Width="375" 
                                 HorizontalAlignment="Left" 
                                 Background="White"
                                 Margin="20,10"
                         >
-                            <TextBlock x:Name="FirstNameUser"
+                        <TextBlock x:Name="FirstNameUser"
                                Text="{Binding FirstName}" 
                                Canvas.Left="60"
                                Canvas.Top="5"
@@ -176,7 +169,7 @@
                                FontSize="12" 
                                TextTrimming="CharacterEllipsis"
                                />
-                            <TextBlock x:Name="ChatMessage"
+                        <TextBlock x:Name="ChatMessage"
                                Text="{Binding Msg}"
                                Canvas.Left="60"
                                Canvas.Top="25"
@@ -185,7 +178,7 @@
                                FontSize="12"
                                Foreground="Gray" Height="22"
                                />
-                            <Image x:Name="Avatar"
+                        <Image x:Name="Avatar"
                         Height="32" 
                         Width="32" 
                         HorizontalAlignment="Center" 
@@ -194,16 +187,7 @@
                         Canvas.Top="10"
                         Source="джонс.PNG" 
                         />
-                            <TextBlock x:Name="CountMessageChat" 
-                               Text="8888" 
-                               Canvas.Left="477" 
-                               Canvas.Top="292" 
-                               Height="16" 
-                               Foreground="White"
-                               Background="#FF40A7E3" Margin="0" Padding="3,0"
-                               />
-
-                            <TextBlock x:Name="ChatTimeCreateMessage"
+                        <TextBlock x:Name="ChatTimeCreateMessage"
                                Text="{Binding Time}"
                                Canvas.Right="0"
                                Canvas.Bottom="0"
@@ -212,29 +196,9 @@
                                FontSize="12"
                                Foreground="Gray"
                                />
-                        </Canvas>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Border>
-        <Canvas x:Name="NewMessageInfo"  Grid.Row="1" Grid.Column="2" Margin="495,303,10,8" >
-            <Button 
-                x:Name="ButtonScrollDawn"
-                VerticalContentAlignment="Center"
-                HorizontalContentAlignment="Right" Height="25" Width="24" Canvas.Right="6" Canvas.Top="17" Background="White" BorderBrush="White" Foreground="White" Canvas.Left="7" Click="ButtonScrollDawn_Click" 
-                
-                >
-                <Image Height="14" Source="910167-2196f3.png" Stretch="Fill" Width="16" RenderTransformOrigin="0.5,0.5" MinWidth="20" MinHeight="20">
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="180"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
-            </Button>
-        </Canvas>
+                    </Canvas>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

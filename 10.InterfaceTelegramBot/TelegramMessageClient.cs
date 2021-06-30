@@ -24,20 +24,20 @@ namespace _10.InterfaceTelegramBot
         
 
         string Json;
-        private ObservableCollection<MessageLog> SaveMassageLog;
+        private List<MessageLog> SaveMassageLog;
         private bool _isDownload = false;
         private string _pathSave = @"C:\Users\Сергей\source\repos\10.InterfaceTelegramBot2\10.InterfaceTelegramBot\bin\Debug\SaveMessageLog.json";
 
 
         public TelegramMessageClient(MainWindow W)
         {
-            SaveMassageLog = new ObservableCollection<MessageLog>();
+            SaveMassageLog = new List<MessageLog>();
             MessageLog = new ObservableCollection<MessageLog>();
             ChatMessageLog = new ObservableCollection<MessageLog>();
             if (_isDownload == false)
             {
                 Json = System.IO.File.ReadAllText(_pathSave);
-                SaveMassageLog = JsonConvert.DeserializeObject<ObservableCollection<MessageLog>>(Json);
+                SaveMassageLog = JsonConvert.DeserializeObject<List<MessageLog>>(Json);
                 W.Dispatcher.Invoke(() =>
                 {
                         for (int i = 0; i < SaveMassageLog.Count; i++)
@@ -120,7 +120,7 @@ namespace _10.InterfaceTelegramBot
             MessageLog.Add(messageLog);
 
             SaveMassageLog.Add(new MessageLog(
-                DateTime.Now.ToLongTimeString(), Text, "bot", id, 0));
+                DateTime.Now.ToLongTimeString(), Text, name, id, 0));
             Json = JsonConvert.SerializeObject(SaveMassageLog);
             System.IO.File.WriteAllText(_pathSave, Json);
         }

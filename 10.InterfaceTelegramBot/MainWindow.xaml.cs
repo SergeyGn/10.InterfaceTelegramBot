@@ -47,5 +47,7 @@ namespace _10.InterfaceTelegramBot
         {
             client.SendMessage(MessageSend.Text, NameUserChat.Text);
         }
+
+
     }
 }
