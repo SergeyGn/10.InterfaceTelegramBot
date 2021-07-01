@@ -41,15 +41,23 @@ namespace _10.InterfaceTelegramBot
 
         private void ButtonSendMessage_Click(object sender, RoutedEventArgs e)
         {
-            client.SendMessage(MessageSend.Text, CurrentId);
 
-            ObservableCollection<MessageLog> chatWithUser = new ObservableCollection<MessageLog>();
-            Chat.ItemsSource = chatWithUser;
-            for (int i = 0; i < client.ChatMessageLog.Count; i++)
+            if (CurrentId == 0)
             {
-                if (client.ChatMessageLog[i].Id == CurrentId)
+                MessageBoxResult messageBox = MessageBox.Show("Нажмите на пользователя которому нужно отправить сообщение");
+            }
+            else
+            {
+                client.SendMessage(MessageSend.Text, CurrentId);
+
+                ObservableCollection<MessageLog> chatWithUser = new ObservableCollection<MessageLog>();
+                Chat.ItemsSource = chatWithUser;
+                for (int i = 0; i < client.ChatMessageLog.Count; i++)
                 {
-                    chatWithUser.Add(client.ChatMessageLog[i]);
+                    if (client.ChatMessageLog[i].Id == CurrentId)
+                    {
+                        chatWithUser.Add(client.ChatMessageLog[i]);
+                    }
                 }
             }
         }
