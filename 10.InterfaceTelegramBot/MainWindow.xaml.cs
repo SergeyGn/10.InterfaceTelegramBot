@@ -42,20 +42,24 @@ namespace _10.InterfaceTelegramBot
         private void ButtonSendMessage_Click(object sender, RoutedEventArgs e)
         {
             client.SendMessage(MessageSend.Text, CurrentId);
+
+            ObservableCollection<MessageLog> chatWithUser = new ObservableCollection<MessageLog>();
+            Chat.ItemsSource = chatWithUser;
+            for (int i = 0; i < client.ChatMessageLog.Count; i++)
+            {
+                if (client.ChatMessageLog[i].Id == CurrentId)
+                {
+                    chatWithUser.Add(client.ChatMessageLog[i]);
+                }
+            }
         }
+
+
         private void ListUsers_MouseUp(object sender, MouseButtonEventArgs e)
         {
             MessageLog message = ListUsersBox.SelectedItem as MessageLog;
             CurrentId = message.Id;
             NameUserChat.Text = CurrentId.ToString();
-            //for(int i=0; i<Chat.Items.Count;i++)
-            //{
-            //    MessageLog item = Chat.Items[i] as MessageLog;
-            //    if(item.Id!=CurrentId)
-            //    {
-            //        Chat.Items.Filter()
-            //    }
-            //}
 
             ObservableCollection<MessageLog> chatWithUser = new ObservableCollection<MessageLog>();
             Chat.ItemsSource = chatWithUser;

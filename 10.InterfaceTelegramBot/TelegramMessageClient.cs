@@ -120,7 +120,7 @@ namespace _10.InterfaceTelegramBot
             MessageLog.Add(messageLog);
 
             SaveMassageLog.Add(new MessageLog(
-                DateTime.Now.ToLongTimeString(), Text, name, Id, 0));
+                DateTime.Now.ToLongTimeString(), Text, "bot", Id, 0));
             Json = JsonConvert.SerializeObject(SaveMassageLog);
             System.IO.File.WriteAllText(_pathSave, Json);
 
