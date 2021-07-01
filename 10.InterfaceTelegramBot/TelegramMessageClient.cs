@@ -22,24 +22,24 @@ namespace _10.InterfaceTelegramBot
         private int _countNewMsg;
         private string token= "1887811869:AAHoHq6KnRNwixEk7VhQVS0d-DRXWwPtU44";
         
-
         string Json;
         private List<MessageLog> SaveMassageLog;
         private bool _isDownload = false;
-        private string _pathSave = @"C:\Users\Сергей\source\repos\10.InterfaceTelegramBot2\10.InterfaceTelegramBot\bin\Debug\SaveMessageLog.json";
-
-
+        private string _pathSave = "SaveMessageLog.json";
+        
         public TelegramMessageClient(MainWindow W)
         {
             SaveMassageLog = new List<MessageLog>();
             MessageLog = new ObservableCollection<MessageLog>();
             ChatMessageLog = new ObservableCollection<MessageLog>();
-            if (_isDownload == false)
+            if (System.IO.File.Exists(_pathSave) == true)
             {
-                Json = System.IO.File.ReadAllText(_pathSave);
-                SaveMassageLog = JsonConvert.DeserializeObject<List<MessageLog>>(Json);
-                W.Dispatcher.Invoke(() =>
+                if (_isDownload == false)
                 {
+                    Json = System.IO.File.ReadAllText(_pathSave);
+                    SaveMassageLog = JsonConvert.DeserializeObject<List<MessageLog>>(Json);
+                    W.Dispatcher.Invoke(() =>
+                    {
                         for (int i = 0; i < SaveMassageLog.Count; i++)
                         {
                             for (int j = 0; j < MessageLog.Count; j++)
@@ -50,14 +50,15 @@ namespace _10.InterfaceTelegramBot
                                 }
                             }
                             MessageLog.Add(new MessageLog(
-                            SaveMassageLog[i].Time, SaveMassageLog[i].Msg, SaveMassageLog[i].FirstName,
-                            SaveMassageLog[i].Id, SaveMassageLog[i].CountNewMsg));
+                        SaveMassageLog[i].Time, SaveMassageLog[i].Msg, SaveMassageLog[i].FirstName,
+                        SaveMassageLog[i].Id, SaveMassageLog[i].CountNewMsg));
                             ChatMessageLog.Add(new MessageLog(
-                            SaveMassageLog[i].Time, SaveMassageLog[i].Msg, SaveMassageLog[i].FirstName,
-                            SaveMassageLog[i].Id, SaveMassageLog[i].CountNewMsg));
+                        SaveMassageLog[i].Time, SaveMassageLog[i].Msg, SaveMassageLog[i].FirstName,
+                        SaveMassageLog[i].Id, SaveMassageLog[i].CountNewMsg));
                         }
                         _isDownload = true;
-                });
+                    });
+                }
             }
 
             w = W;
@@ -90,18 +91,17 @@ namespace _10.InterfaceTelegramBot
             });
         }
 
-        public void SendMessage(string Text, string Id)
+        public MessageLog SendMessage(string Text, long Id)
         {
-            long id = Convert.ToInt64(Id);
             string name="null";
-            Bot.SendTextMessageAsync(id, Text);
+            Bot.SendTextMessageAsync(Id, Text);
 
             ChatMessageLog.Add(new MessageLog(
-            DateTime.Now.ToLongTimeString(), Text, "bot", id, ++_countNewMsg));
+            DateTime.Now.ToLongTimeString(), Text, "bot", Id, ++_countNewMsg));
 
             for(int i=0;i<MessageLog.Count;i++)
             {
-                if (MessageLog[i].Id == id)
+                if (MessageLog[i].Id == Id)
                 {
                     name = MessageLog[i].FirstName;
                     break;
@@ -109,20 +109,22 @@ namespace _10.InterfaceTelegramBot
             }
             for (int i = 0; i < MessageLog.Count; i++)
             {
-                if (id == MessageLog[i].Id)
+                if (Id == MessageLog[i].Id)
                 {
                     MessageLog.Remove(MessageLog[i]);
                 }
             }
             MessageLog messageLog = new MessageLog(
-            DateTime.Now.ToLongTimeString(), Text, name, id, 0);
+            DateTime.Now.ToLongTimeString(), Text, name, Id, 0);
 
             MessageLog.Add(messageLog);
 
             SaveMassageLog.Add(new MessageLog(
-                DateTime.Now.ToLongTimeString(), Text, name, id, 0));
+                DateTime.Now.ToLongTimeString(), Text, name, Id, 0));
             Json = JsonConvert.SerializeObject(SaveMassageLog);
             System.IO.File.WriteAllText(_pathSave, Json);
+
+            return messageLog;
         }
     }
 }

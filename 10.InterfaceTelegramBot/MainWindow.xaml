@@ -6,10 +6,9 @@
         xmlns:local="clr-namespace:_10.InterfaceTelegramBot"
         mc:Ignorable="d"
         Title="Chat From Telegram Bot" 
-        Height="450" 
-        Width="800" 
-        MinWidth="400"
-        MinHeight="225"
+        Height="450"  MinHeight="450" MaxHeight="450"
+        Width="800" MinWidth="800" MaxWidth="800"       
+        WindowState="Normal"
         >
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
@@ -38,7 +37,8 @@
                     x:Name="ListUsers"
                     Height="50" 
                     Width="240"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Center" MouseUp="ListUsers_MouseUp"
+                            
                         >
                             <TextBlock x:Name="FirstName"
                                Text="{Binding FirstName}" 
@@ -94,7 +94,7 @@
             </ListBox>
         </Border>
         <TextBox x:Name="NameUserChat"
-                 Text="{Binding ElementName=ListUsersBox,Path=SelectedItem.Id}"
+                 
                  FontWeight="DemiBold"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
@@ -120,13 +120,22 @@
                 Text="Написать сообщение..."
                 Grid.Column="0"
                 Grid.Row="0"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                
                  />
             <Button 
                 x:Name="ButtonSendMessage"
                 VerticalContentAlignment="Center"
-                HorizontalContentAlignment="Right" Height="25" Width="25" Canvas.Right="6" Canvas.Top="4" Background="White" BorderBrush="White" Foreground="White" Click="ButtonSendMessage_Click" 
+                HorizontalContentAlignment="Right" Height="25" 
+                Width="25" Canvas.Right="6" 
+                Canvas.Top="4" Background="White" 
+                BorderBrush="White" 
+                Foreground="White" 
+                Click="ButtonSendMessage_Click" 
                 Grid.Column="1"
                 Grid.Row="0"
+                
                 >
                 <Image Height="14" Source="910167-2196f3.png" Stretch="Fill" Width="16" RenderTransformOrigin="0.5,0.5" MinWidth="20" MinHeight="20">
                     <Image.RenderTransform>
@@ -176,7 +185,9 @@
                                Width="305" 
                                MinWidth="65"
                                FontSize="12"
-                               Foreground="Gray" Height="22"
+                               Foreground="Gray" 
+                               Height="22"
+                               TextWrapping="Wrap"
                                />
                         <Image x:Name="Avatar"
                         Height="32" 
