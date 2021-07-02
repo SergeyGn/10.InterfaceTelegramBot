@@ -16,15 +16,13 @@ namespace _10.InterfaceTelegramBot
 
         public string FirstName { get; set; }
 
-        public int CountNewMsg { get; set; }
 
-        public MessageLog(string Time, string Msg, string FirstName, long Id, int CountNewMsg)
+        public MessageLog(string Time, string Msg, string FirstName, long Id)
         {
             this.Time = Time;
             this.Msg = Msg;
             this.FirstName = FirstName;
             this.Id = Id;
-            this.CountNewMsg = CountNewMsg;
         }
     }
 }

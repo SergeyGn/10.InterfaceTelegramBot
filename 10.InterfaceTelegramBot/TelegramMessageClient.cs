@@ -51,10 +51,10 @@ namespace _10.InterfaceTelegramBot
                             }
                             MessageLog.Add(new MessageLog(
                         SaveMassageLog[i].Time, SaveMassageLog[i].Msg, SaveMassageLog[i].FirstName,
-                        SaveMassageLog[i].Id, SaveMassageLog[i].CountNewMsg));
+                        SaveMassageLog[i].Id));
                             ChatMessageLog.Add(new MessageLog(
                         SaveMassageLog[i].Time, SaveMassageLog[i].Msg, SaveMassageLog[i].FirstName,
-                        SaveMassageLog[i].Id, SaveMassageLog[i].CountNewMsg));
+                        SaveMassageLog[i].Id));
                         }
                         _isDownload = true;
                     });
@@ -80,7 +80,7 @@ namespace _10.InterfaceTelegramBot
                 }
                 MessageLog messageLog = new MessageLog(
                 DateTime.Now.ToLongTimeString(), e.Message.Text, e.Message.Chat.FirstName,
-                e.Message.Chat.Id, ++_countNewMsg);
+                e.Message.Chat.Id);
 
                 MessageLog.Add(messageLog);
                 ChatMessageLog.Add(messageLog);
@@ -88,7 +88,9 @@ namespace _10.InterfaceTelegramBot
                 SaveMassageLog.Add(messageLog);
                 Json = JsonConvert.SerializeObject(SaveMassageLog);
                 System.IO.File.WriteAllText(_pathSave, Json);
+
             });
+            
         }
 
         public MessageLog SendMessage(string Text, long Id)
@@ -97,7 +99,7 @@ namespace _10.InterfaceTelegramBot
             Bot.SendTextMessageAsync(Id, Text);
 
             ChatMessageLog.Add(new MessageLog(
-            DateTime.Now.ToLongTimeString(), Text, "bot", Id, ++_countNewMsg));
+            DateTime.Now.ToLongTimeString(), Text, "bot", Id));
 
             for(int i=0;i<MessageLog.Count;i++)
             {
@@ -115,12 +117,12 @@ namespace _10.InterfaceTelegramBot
                 }
             }
             MessageLog messageLog = new MessageLog(
-            DateTime.Now.ToLongTimeString(), Text, name, Id, 0);
+            DateTime.Now.ToLongTimeString(), Text, name, Id);
 
             MessageLog.Add(messageLog);
 
             SaveMassageLog.Add(new MessageLog(
-                DateTime.Now.ToLongTimeString(), Text, "bot", Id, 0));
+                DateTime.Now.ToLongTimeString(), Text, "bot", Id));
             Json = JsonConvert.SerializeObject(SaveMassageLog);
             System.IO.File.WriteAllText(_pathSave, Json);
 

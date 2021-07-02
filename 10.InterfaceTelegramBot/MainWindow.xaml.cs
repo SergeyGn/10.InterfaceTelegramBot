@@ -33,10 +33,10 @@ namespace _10.InterfaceTelegramBot
             
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             client =new TelegramMessageClient(this);
-            Chat.ItemsSource = client.ChatMessageLog;
+
             ListUsersBox.ItemsSource = client.MessageLog;
-           
-            
+            Chat.ItemsSource = client.ChatMessageLog;
+
         }
 
         private void ButtonSendMessage_Click(object sender, RoutedEventArgs e)
@@ -60,6 +60,8 @@ namespace _10.InterfaceTelegramBot
                     }
                 }
             }
+            MessageSend.Text = "Написать сообщение...";
+            MessageSend.Foreground = Brushes.Gray;
         }
 
 
@@ -78,6 +80,17 @@ namespace _10.InterfaceTelegramBot
                     chatWithUser.Add(client.ChatMessageLog[i]);
                 }
             }
+
+            MessageSend.Text = "Написать сообщение...";
+            MessageSend.Foreground = Brushes.Gray;
+
+            Chat.ScrollIntoView(Chat.Items[Chat.Items.Count - 1]);
+        }
+
+        private void MessageSend_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageSend.Text = "";
+            MessageSend.Foreground = Brushes.Black;
         }
     }
 }

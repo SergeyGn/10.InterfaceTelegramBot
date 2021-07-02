@@ -70,15 +70,6 @@
                         Canvas.Top="2"
                         Source="джонс.PNG"
                         />
-                            <TextBlock x:Name="CountMessage" 
-                               Text="{Binding CountNewMsg}" 
-                               Canvas.Left="199" 
-                               Canvas.Top="25" 
-                               Height="16" 
-                               Foreground="White"
-                               Background="#FF40A7E3" Margin="0" Padding="3,0"
-
-                               />
                             <TextBlock x:Name="TimeCreateMessage"
                                Text="{Binding Time}"
                                Canvas.Left="190"
@@ -122,8 +113,8 @@
                 Grid.Column="0"
                 Grid.Row="0"
                 AcceptsReturn="True"
-                TextWrapping="Wrap"
-                
+                TextWrapping="Wrap" 
+                Foreground="#FFA2A2A2" PreviewMouseDown="MessageSend_PreviewMouseDown" 
                  />
             <Button 
                 x:Name="ButtonSendMessage"
