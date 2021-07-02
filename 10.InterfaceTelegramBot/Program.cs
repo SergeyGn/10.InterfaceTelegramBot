@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -12,20 +12,18 @@ using Telegram.Bot.Types.InputFiles;
 
 namespace _9.TelegramBot
 {
-   public  class Program
-   {
-        static string token = "1887811869:AAHoHq6KnRNwixEk7VhQVS0d-DRXWwPtU44";
-        public static TelegramBotClient Bot;
-        
+    class Program
+    {
+        private static TelegramBotClient _bot;
         private static string _pathContent = @"Content\";
         private static string _pathDocuments = @"Content\Documents\";
         private static string _pathImages = @"Content\Photo\";
         private static string _pathSounds = @"Content\Sounds\";
         private static string _pathVideo = @"Content\Video\";
-        private static Dictionary<long, User> _listUsers = new Dictionary<long, User>();
-        public static void Main(string[] args)
+        public static Dictionary<long, User> ListUsers = new Dictionary<long, User>();
+        static void Main(string[] args)
         {
-            
+            string token = "1887811869:AAHxziYTVufs3VTuox-pX735Z6SbDIvkP08";
             if (!Directory.Exists(_pathContent))
             {
                 Directory.CreateDirectory(_pathContent);
@@ -34,20 +32,20 @@ namespace _9.TelegramBot
                 Directory.CreateDirectory(_pathSounds);
                 Directory.CreateDirectory(_pathVideo);
             }
-            
-            Bot= new TelegramBotClient(token);
-            Bot.OnMessage += MessageListener;
-            Bot.StartReceiving();
+            _bot = new TelegramBotClient(token);
+
+            _bot.OnMessage += MessageListener;
+            _bot.StartReceiving();
             Console.ReadKey();
         }
 
-        public static void MessageListener(object sender, MessageEventArgs e) //обработчик сообщений
+        private static void MessageListener(object sender, MessageEventArgs e) //обработчик сообщений
         {
-            if (!_listUsers.ContainsKey(e.Message.Chat.Id))
+            if (!ListUsers.ContainsKey(e.Message.Chat.Id))
             {
-                _listUsers.Add(e.Message.Chat.Id, new User(e.Message.Chat.Id, ""));
+                ListUsers.Add(e.Message.Chat.Id, new User(e.Message.Chat.Id, ""));
             }
-            User user = _listUsers[e.Message.Chat.Id];
+            User user = ListUsers[e.Message.Chat.Id];
             string СurrentMessage = e.Message.Text;
             string Path = user.PathSave;
             switch (user.LostMessage)
@@ -114,32 +112,32 @@ namespace _9.TelegramBot
                     switch (e.Message.Text)
                     {
                         case "/help":
-                            Bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это бот файлообменник. Загрузи что-нибудь от сюда или сохрани сюда" +
+                            _bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это бот файлообменник. Загрузи что-нибудь от сюда или сохрани сюда" +
                                 $"\n/show - показывает контент который можно загрузить с сервера");
                             break;
                         case "/start":
-                           Bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это бот файлообменник. Загрузи что-нибудь от сюда или сохрани сюда." +
+                            _bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это бот файлообменник. Загрузи что-нибудь от сюда или сохрани сюда." +
                                 $"Для дополнительной информации воспользуйся командой /help");
                             break;
                         case "/show":
                             GetDirectoryFolder(_pathContent, e);
                             break;
                         default:
-                            Bot.SendTextMessageAsync(e.Message.Chat.Id, "я не понимаю твою команду введи /help и я подскажу тебе");
+                            _bot.SendTextMessageAsync(e.Message.Chat.Id, "я не понимаю твою команду введи /help и я подскажу тебе");
                             break;
                     }
                     return;
                 default:
-                    Bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это что шутка? Я тут для загрузки и показа что загрузили");
+                    _bot.SendTextMessageAsync(e.Message.Chat.Id, $"Это что шутка? Я тут для загрузки и показа что загрузили");
                     return;
             }
 
             Download(File.FileId, $"{File.FilePath}{File.FileName}");
 
-            Bot.SendTextMessageAsync(e.Message.Chat.Id, $"файл загружен");
+            _bot.SendTextMessageAsync(e.Message.Chat.Id, $"файл загружен");
             if (e.Message.Text == null) return;
         }
-
+               
         private static void GetDirectoryFolder(string path, MessageEventArgs e) //показать каталог по заданному пути
         {
             DirectoryInfo di = new DirectoryInfo(path);
@@ -169,7 +167,7 @@ namespace _9.TelegramBot
                     Answer += $"\n{i + 1}){ListItem[i]}";
                 }
             }
-            Bot.SendTextMessageAsync(e.Message.Chat.Id, Answer);
+            _bot.SendTextMessageAsync(e.Message.Chat.Id, Answer);
             return;
         }
         private static string CheckNumber(string text, string path, MessageEventArgs e) //проверить число
@@ -200,7 +198,7 @@ namespace _9.TelegramBot
                     return ReturnPath;
                 }
             }
-            Bot.SendTextMessageAsync(e.Message.Chat.Id, "неправильный ввод, нужно ввести номер из списка," +
+            _bot.SendTextMessageAsync(e.Message.Chat.Id, "неправильный ввод, нужно ввести номер из списка," +
                 " попробуйте заново через команду /show");
             return "null";
         }
@@ -214,28 +212,28 @@ namespace _9.TelegramBot
                 var InputFile = new InputOnlineFile(stream, FileName);
                 if (Path.Contains(_pathDocuments))
                 {
-                    await Bot.SendDocumentAsync(Id, InputFile);
+                    await _bot.SendDocumentAsync(Id, InputFile);
                 }
                 else if (Path.Contains(_pathImages))
                 {
-                    await Bot.SendPhotoAsync(Id, InputFile);
+                   await _bot.SendPhotoAsync(Id, InputFile);
                 }
                 else if (Path.Contains(_pathSounds))
                 {
-                    await Bot.SendAudioAsync(Id, InputFile);
+                    await _bot.SendAudioAsync(Id, InputFile);
                 }
                 else if (Path.Contains(_pathVideo))
                 {
-                    await Bot.SendVideoAsync(Id, InputFile);
+                   await _bot.SendVideoAsync(Id, InputFile);
                 }
             }
         }
 
         private static async Task Download(string FileId, string Path)  //скачать на компьютер
         {
-            var File = await Bot.GetFileAsync(FileId);
+            var File = await _bot.GetFileAsync(FileId);
             FileStream fs = new FileStream(Path, FileMode.Create);
-            await Bot.DownloadFileAsync(File.FilePath, fs);
+            await _bot.DownloadFileAsync(File.FilePath, fs);
             fs.Close();
             fs.Dispose();
         }
