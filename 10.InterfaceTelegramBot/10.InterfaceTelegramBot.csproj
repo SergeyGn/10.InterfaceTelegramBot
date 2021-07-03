@@ -118,5 +118,9 @@
   <ItemGroup>
     <Resource Include="910167-2196f3.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="1200px-Off_font_awesome.svg.png" />
+    <Resource Include="8261201597040222615.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

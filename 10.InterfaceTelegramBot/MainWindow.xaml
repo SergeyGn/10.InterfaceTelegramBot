@@ -20,6 +20,47 @@
             <RowDefinition Height="385*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
+        <Grid
+            x:Name="MenuButtons"
+            Grid.Column="0"
+            Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="Auto"/>
+
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ExitButton"
+                    Grid.Column="0" 
+                    Margin="1" Background="White" Click="ExitButton_Click"
+                    
+                    >
+                <Image Source="1200px-Off_font_awesome.svg.png"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="30"
+                       />
+            </Button>
+            <Button x:Name="SaveChatButton"
+                    Grid.Column="1"
+                    Margin="1" Background="White" Click="SaveChatButton_Click"
+                    >
+                <Image Source="8261201597040222615.png"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="30"
+                       />
+            </Button>
+            <TextBlock x:Name="TextInfo"
+                   Grid.Column="2"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Center"
+                   Margin="5"
+                   FontSize="8"/>
+        </Grid>
+
         <Border 
                 Grid.Column="0"
                 Grid.Row="0"
@@ -27,7 +68,7 @@
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 
             BorderBrush="Gray"
-            BorderThickness="1" Grid.RowSpan="3"
+            BorderThickness="1" Grid.RowSpan="2"
             >
             <ListBox x:Name="ListUsersBox">
 

@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using _10.InterfaceTelegramBot;
 using Telegram.Bot.Args;
+using System.IO;
 
 namespace _10.InterfaceTelegramBot
 {
@@ -91,6 +92,36 @@ namespace _10.InterfaceTelegramBot
         {
             MessageSend.Text = "";
             MessageSend.Foreground = Brushes.Black;
+        }
+
+        private void SaveChatButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentId == 0)
+            {
+                MessageBoxResult messageBox = MessageBox.Show("Нажмите на пользователя которому нужно отправить сообщение");
+            }
+            else
+            {
+                string pathSave = $"Чат с пользователем ({CurrentId}).txt";
+
+                List<string> chatWithUser = new List<string>();
+                for (int i = 0; i < client.ChatMessageLog.Count; i++)
+                {
+                    if (client.ChatMessageLog[i].Id == CurrentId)
+                    {
+                        chatWithUser.Add($"[{client.ChatMessageLog[i].Time}] {client.ChatMessageLog[i].Msg}-{client.ChatMessageLog[i].FirstName}\n");
+                    }
+                }
+                string content = String.Concat<string>(chatWithUser);
+                File.WriteAllText(pathSave, content);
+                TextInfo.Text = $"Чат с пользователем {CurrentId} сохранён." +
+                                $"\nФайл:{pathSave}";
+            }
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
